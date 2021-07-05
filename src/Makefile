@@ -10,9 +10,4 @@ src-$(CONFIG_HAVE_GPIO_SPI) += spicmds.c thermocouple.c
 src-$(CONFIG_HAVE_GPIO_I2C) += i2ccmds.c
 src-$(CONFIG_HAVE_GPIO_HARD_PWM) += pwmcmds.c
 src-$(CONFIG_HAVE_GPIO_BITBANGING) += lcd_st7920.c lcd_hd44780.c buttons.c \
-    spi_software.c neopixel.c
-src-$(CONFIG_HAVE_GPIO_UART) += tmcuart.c
-
-ifeq ($(CONFIG_HAVE_SOFT_PWM),y)
-CFLAGS   += -DHAVE_SOFT_PWM=1
-endif
+    tmcuart.c spi_software.c neopixel.c sensor_adxl345.c

@@ -68,10 +68,10 @@ function to be called at the requested clock time. Timer interrupts
 are initially handled in an architecture specific interrupt handler
 (eg, **src/avr/timer.c**) which calls sched_timer_dispatch() located
 in **src/sched.c**. The timer interrupt leads to execution of schedule
-timer functions. Timer functions always run with interrupts
-disabled. The timer functions should always complete within a few
-micro-seconds. At completion of the timer event, the function may
-choose to reschedule itself.
+timer functions. Timer functions always run with interrupts disabled.
+The timer functions should always complete within a few micro-seconds.
+At completion of the timer event, the function may choose to
+reschedule itself.
 
 In the event an error is detected the code can invoke shutdown() (a
 macro which calls sched_shutdown() located in **src/sched.c**).
@@ -125,12 +125,13 @@ of a typical move command. The [kinematics](Kinematics.md) document
 provides further information on the mechanics of moves.
 
 * Processing for a move command starts in gcode.py. The goal of
-  gcode.py is to translate G-code into internal calls. Changes in
-  origin (eg, G92), changes in relative vs absolute positions (eg,
-  G90), and unit changes (eg, F6000=100mm/s) are handled here. The
-  code path for a move is: `_process_data() -> _process_commands() ->
-  cmd_G1()`. Ultimately the ToolHead class is invoked to execute the
-  actual request: `cmd_G1() -> ToolHead.move()`
+  gcode.py is to translate G-code into internal calls. A G1 command
+  will invoke cmd_G1() in klippy/extras/gcode_move.py. The
+  gcode_move.py code handles changes in origin (eg, G92), changes in
+  relative vs absolute positions (eg, G90), and unit changes (eg,
+  F6000=100mm/s). The code path for a move is: `_process_data() ->
+  _process_commands() -> cmd_G1()`. Ultimately the ToolHead class is
+  invoked to execute the actual request: `cmd_G1() -> ToolHead.move()`
 
 * The ToolHead class (in toolhead.py) handles "look-ahead" and tracks
   the timing of printing actions. The main codepath for a move is:
@@ -188,8 +189,8 @@ provides further information on the mechanics of moves.
   with head movement even though the code is kept separate.
 
 * After the iterative solver calculates the step times they are added
-  to an array: `itersolve_gen_steps_range() -> queue_append()` (in
-  klippy/chelper/stepcompress.c). The array (struct
+  to an array: `itersolve_gen_steps_range() -> stepcompress_append()`
+  (in klippy/chelper/stepcompress.c). The array (struct
   stepcompress.queue) stores the corresponding micro-controller clock
   counter times for every step. Here the "micro-controller clock
   counter" value directly corresponds to the micro-controller's
@@ -220,11 +221,11 @@ provides further information on the mechanics of moves.
   runs the following, 'count' times: `do_step(); next_wake_time =
   last_wake_time + interval; interval += add;`
 
-The above may seem like a lot of complexity to execute a
-movement. However, the only really interesting parts are in the
-ToolHead and kinematic classes. It's this part of the code which
-specifies the movements and their timings. The remaining parts of the
-processing is mostly just communication and plumbing.
+The above may seem like a lot of complexity to execute a movement.
+However, the only really interesting parts are in the ToolHead and
+kinematic classes. It's this part of the code which specifies the
+movements and their timings. The remaining parts of the processing is
+mostly just communication and plumbing.
 
 Adding a host module
 ====================
@@ -338,9 +339,9 @@ Useful steps:
    operations.
 5. Other methods. Implement the `check_move()`, `get_status()`,
    `get_steppers()`, `home()`, and `set_position()` methods. These
-   functions are typically used to provide kinematic specific
-   checks. However, at the start of development one can use
-   boiler-plate code here.
+   functions are typically used to provide kinematic specific checks.
+   However, at the start of development one can use boiler-plate code
+   here.
 6. Implement test cases. Create a g-code file with a series of moves
    that can test important cases for the given kinematics. Follow the
    [debugging documentation](Debugging.md) to convert this g-code file
@@ -473,9 +474,9 @@ system specified in the config file. This may differ from the
 bed_tilt, skew_correction) is in effect. This may differ from the
 actual coordinates specified in the last `G1` command if the g-code
 origin has been changed (eg, `G92`, `SET_GCODE_OFFSET`, `M221`). The
-`M114` command (`gcode.get_status()['gcode_position']`) will report
-the last g-code position relative to the current g-code coordinate
-system.
+`M114` command (`gcode_move.get_status()['gcode_position']`) will
+report the last g-code position relative to the current g-code
+coordinate system.
 
 The "gcode base" is the location of the g-code origin in cartesian
 coordinates relative to the coordinate system specified in the config
