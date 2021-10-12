@@ -74,6 +74,12 @@ serial_enable_tx_irq(void)
 }
 
 void
+serial_disable_tx_irq(void)
+{
+    USARTx->CR1 = 0;
+}
+
+void
 serial_init(void)
 {
     enable_pclock((uint32_t)USARTx);

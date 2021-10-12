@@ -11,3 +11,4 @@ bb-src-$(CONFIG_HAVE_GPIO_SPI) := spi_software.c sensor_adxl345.c
 src-$(CONFIG_HAVE_GPIO_BITBANGING) += $(bb-src-y) lcd_st7920.c lcd_hd44780.c \
     buttons.c neopixel.c pulse_counter.c
 src-$(CONFIG_HAVE_TMC_UART) +=  tmcuart.c
+src-$(CONFIG_HAVE_POWER_LOST) += power_lost.c

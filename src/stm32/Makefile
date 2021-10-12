@@ -40,6 +40,7 @@ src-$(CONFIG_MACH_STM32F4) += ../lib/stm32f4/system_stm32f4xx.c
 src-$(CONFIG_MACH_STM32F4) += stm32/stm32f4.c generic/armcm_timer.c
 src-$(CONFIG_MACH_STM32F4) += stm32/adc.c stm32/i2c.c
 src-$(CONFIG_HAVE_GPIO_SPI) += stm32/spi.c
+src-$(CONFIG_HAVE_EEPROM) += stm32/flash.c
 usb-src-$(CONFIG_HAVE_STM32_USBFS) := stm32/usbfs.c
 usb-src-$(CONFIG_HAVE_STM32_USBOTG) := stm32/usbotg.c
 src-$(CONFIG_USBSERIAL) += $(usb-src-y) stm32/chipid.c generic/usb_cdc.c
@@ -58,6 +59,9 @@ target-y += $(OUT)klipper.bin
 $(OUT)klipper.bin: $(OUT)klipper.elf
 	@echo "  Creating hex file $@"
 	$(Q)$(OBJCOPY) -O binary $< $@
+
+
+FLASH_DEVICE=/dev/ttyS4
 
 # Flash rules
 lib/hidflash/hid-flash:
@@ -79,3 +83,12 @@ recoreflash: $(OUT)klipper.bin
 	$(Q)stm32flash -w $< -v -i -196,196 -g 0 $(FLASH_DEVICE)
 	$(Q)gpioset 1 197=0
 	$(Q)gpioget 1 196
+
+recoreget:
+	@echo "  Get last page from stm32 $< to $(FLASH_DEVICE) via stm32flash"
+	$(Q)gpioset 1 197=1
+	$(Q)gpioset 1 196=0
+	$(Q)stm32flash -r pos.bin -S 0x08003c00:10 -i -196,196 $(FLASH_DEVICE)
+	$(Q)gpioset 1 197=0
+	$(Q)gpioget 1 196
+	hexdump pos.bin

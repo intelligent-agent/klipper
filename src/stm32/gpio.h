@@ -55,4 +55,16 @@ void i2c_write(struct i2c_config config, uint8_t write_len, uint8_t *write);
 void i2c_read(struct i2c_config config, uint8_t reg_len, uint8_t *reg
               , uint8_t read_len, uint8_t *read);
 
+struct position {
+  uint16_t x;
+  uint16_t y;
+  uint16_t z;
+  uint16_t timestamp;
+  uint16_t saved;
+};
+
+void flash_erase_position(void);
+void flash_save_position(struct position pos);
+struct position flash_read_position(void);
+
 #endif // gpio.h
