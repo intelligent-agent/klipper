@@ -24,13 +24,5 @@
 #define RPIO_HOLD_CTRL_REG        R_PRCM_BASE + 0x01F0
 #define OSC24M_CTRL_REG           R_PRCM_BASE + 0x01F4
 
-typedef enum {
-    INTERNAL,
-    OSC24M,
-    PLL_PERIPH,
-    IOSC
-} CPUs_freq;
-
 void r_prcm_uart_enable(void);
-void r_prcm_set_cpus_clk_rate(CPUs_freq freq);
 #endif

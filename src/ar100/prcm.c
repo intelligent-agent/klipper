@@ -4,15 +4,8 @@
 //
 // This file may be distributed under the terms of the GNU GPLv3 license.
 
-
 #include "prcm.h"
 #include "util.h"
-#define CPUS_POST_DIV 1
-
-void
-r_prcm_set_cpus_clk_rate(CPUs_freq freq){
-    write_reg(CPUS_CLK_REG, freq<<16 | CPUS_POST_DIV<<8);
-}
 
 void
 r_prcm_uart_enable(void){
