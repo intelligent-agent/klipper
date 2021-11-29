@@ -393,7 +393,6 @@ FLOOD 100000 0.0 debug_nop
 get_uptime
 ```
 
-
 When the test completes, determine the difference between the clocks
 reported in the two "uptime" response messages. The total number of
 commands per second is then `100000 * mcu_frequency / clock_diff`.

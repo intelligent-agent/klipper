@@ -12,8 +12,6 @@
 #define U(n)          (n ## U)
 #endif
 
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
-
 #define BIT(n)        (U(1) << (n))
 
 #define GENMASK(h, l) ((U(0xffffffff) << (l)) & (U(0xffffffff) >> (31 - (h))))

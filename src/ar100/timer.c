@@ -5,6 +5,7 @@
 // This file may be distributed under the terms of the GNU GPLv3 license.
 
 #include "timer.h"
+#include "board/misc.h"
 #include "board/timer_irq.h"
 #include "board/misc.h"
 
