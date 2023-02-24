@@ -8,7 +8,7 @@ import logging, os
 import pins, mcu
 
 pins = {
-    "A6": {
+    "A7": {
         'enable_pin': 'ar100:PF5',
         'oc_reset_pin': 'ar100:PF4',
         'gain_enable_t0': 'ar100:PD4',
@@ -44,10 +44,11 @@ class recore:
         printer = config.get_printer()
         ppins = printer.lookup_object('pins')
         ppins.register_chip('recore', self)
-        revisions = {'A' + str(i): 'A' + str(i) for i in range(7)}
+        revisions = {'A' + str(i): 'A' + str(i) for i in range(8)}
         self.revision = config.getchoice('revision', revisions)
 
         pins["A3"] = pins["A4"] = pins["A5"]
+        pins["A6"] = pins["A7"]
         # Setup enable pin
         enable_pin = config.get('enable_pin',
                                 pins[self.revision]['enable_pin'])
@@ -76,7 +77,7 @@ class recore:
                 pin = ppins.setup_pin('endstop', pin_name)
             else:
                 pin = ppins.setup_pin('digital_out', pin_name)
-                if self.revision == 'A6':
+                if self.revision in ['A6', 'A7']:
                     value = 1.0
                 else:
                     value = 0.0
@@ -95,7 +96,7 @@ class recore:
                 pin.setup_start_value(start_value=1.,
                                       shutdown_value=1.,
                                       is_static=True)
-            if self.revision == 'A6':
+            if self.revision in ['A6', 'A7']:
                 offset = config.get('offset_t' + str(idx), '1')
                 if offset not in ['0', '1']:
                     raise Exception("Offset not 0 or 1")
