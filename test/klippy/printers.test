@@ -255,7 +255,9 @@ CONFIG ../../config/generic-replicape.cfg
 
 # Printers using the AR100
 DICTIONARY stm32f031.dict ar100=ar100.dict
-CONFIG ../../config/generic-recore.cfg
+CONFIG ../../config/generic-recore-a5.cfg
+CONFIG ../../config/generic-recore-a6.cfg
+CONFIG ../../config/generic-recore-a7.cfg
 
 
 # Tests with multiple mcus
