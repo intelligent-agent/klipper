@@ -4344,6 +4344,41 @@ vssa_pin:
 #   noise. The default is 2 seconds.
 ```
 
+### [recore]
+
+Recore support - see [generic-recore-a7.cfg](../config/generic-recore-a7.cfg)
+or [generic-recore-a6.cfg](../config/generic-recore-a6.cfg) files for an example.
+
+```
+# The "recore" config section adds the ability to enable or disable op-amp gain,
+pullup resistors and offset for thermistor outputs.
+[recore]
+revision:
+#   Used to define the revision of the recore main board.
+#   Supported values are A6 and A7.
+#gain_t0:
+#gain_t1:
+#gain_t2:
+#gain_t3:
+#   Used to enable or disable op-amp gain for thermistor pins.
+#   Valid settings are a number between 1-100.
+#   Default value: 1
+#pullup_t0:
+#pullup_t1:
+#pullup_t2:
+#pullup_t3:
+#   Used to enable or disable the builtin pull-up resistors for thermistor pins.
+#   Numeric boolean, valid settings are 1 or 0.
+#   Default value: 1
+#offset_t0:
+#offset_t1:
+#offset_t2:
+#offset_t3:
+#   Used to enable or disable "offset" for thermistor pins.
+#   Numeric boolean, valid settings are 1 or 0.
+#   Default value: 1
+```
+
 ### [replicape]
 
 Replicape support - see the [beaglebone guide](Beaglebone.md) and the

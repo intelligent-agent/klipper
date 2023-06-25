@@ -267,5 +267,8 @@ CONFIG ../../config/generic-replicape.cfg
 # Tests with multiple mcus
 DICTIONARY atmega2560.dict zboard=atmega2560.dict auxboard=atmega2560.dict
 CONFIG ../../config/sample-multi-mcu.cfg
+DICTIONARY stm32f031.dict auxboard=ar100.dict
+CONFIG ../../config/generic-recore-a6.cfg
+CONFIG ../../config/generic-recore-a7.cfg
 DICTIONARY atmega2560.dict z=atmega2560.dict
 CONFIG ../../config/kit-voron2-250mm.cfg
